@@ -1,5 +1,5 @@
 # Use the base image with Java 20 and Maven pre-installed
-FROM maven:3.8.4-openjdk-20
+FROM maven:3.9.2-eclipse-temurin-20-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
