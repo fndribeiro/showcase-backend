@@ -15,4 +15,4 @@ RUN mvn clean package
 EXPOSE 8080
 
 # Specify the command to run the application
-CMD ["java", "-jar", "target/showcase-backend.jar"]
+CMD ["java", "-jar", "target/showcase-backend-1.0.0-SNAPSHOT.jar"]
