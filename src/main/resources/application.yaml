@@ -1,0 +1,17 @@
+app:
+   allowedOrigins:
+      - http://localhost:3000/
+   tokenSecret: ${SHOWCASE_BACKEND_TOKEN_SECRET}
+spring:
+   security:
+     oauth2:
+       client:
+         registration:
+           google:
+             clientId: ${SHOWCASE_BACKEND_GOOGLE_CLIENT_ID}
+             clientSecret: ${SHOWCASE_BACKEND_GOOGLE_CLIENT_SECRET}
+             scope:
+               - profile
+               - email
+                     
+                                

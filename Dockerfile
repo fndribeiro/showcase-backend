@@ -11,8 +11,5 @@ COPY pom.xml /app
 # Build the application using Maven
 RUN mvn clean package
 
-# Expose the port that the application will run on
-EXPOSE 8080
-
 # Specify the command to run the application
 CMD ["java", "-jar", "target/showcase-backend-1.0.0-SNAPSHOT.jar"]
