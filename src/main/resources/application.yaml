@@ -1,6 +1,7 @@
 application:
    allowedOrigins:
       - http://localhost:3000/
+      - https://showcase-frontend-eta.vercel.app/
    frontendBaseUrl: ${SHOWCASE_FRONTEND_BASE_URL}
    tokenSecret: ${SHOWCASE_BACKEND_TOKEN_SECRET}
    

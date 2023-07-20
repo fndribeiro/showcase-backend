@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ribeiro.fernando.showcasebackend.domain.entities.users.LoggedUser;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("user")
+@Tag(name = "User", description = "Retrieve user profile.")
 public class UserController {
 	
 	@GetMapping()
