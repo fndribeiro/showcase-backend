@@ -1,7 +1,9 @@
-app:
+application:
    allowedOrigins:
       - http://localhost:3000/
+   frontendBaseUrl: ${SHOWCASE_FRONTEND_BASE_URL}
    tokenSecret: ${SHOWCASE_BACKEND_TOKEN_SECRET}
+   
 spring:
    security:
      oauth2:
@@ -13,5 +15,15 @@ spring:
              scope:
                - profile
                - email
+               
+springdoc:
+   default-consumes-media-type: application/json
+   default-produces-media-type: application/json
+   override-with-generic-response: false
+   swagger-ui:
+      operations-sorter: alpha
+      path: /docs
+      supportedSubmitMethods: []
+      tagsSorter: alpha
                      
                                 

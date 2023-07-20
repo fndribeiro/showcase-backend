@@ -1,7 +1,6 @@
 package br.com.ribeiro.fernando.showcasebackend.ports.authentication.configurations;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +11,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import br.com.ribeiro.fernando.showcasebackend.ports.app.properties.AppProperties;
+import br.com.ribeiro.fernando.showcasebackend.ports.application.properties.ApplicationProperties;
 import br.com.ribeiro.fernando.showcasebackend.ports.authentication.filters.TokenValidationFilter;
 import br.com.ribeiro.fernando.showcasebackend.ports.authentication.oauth2.CookieOAuth2AuthorizationRequestRepository;
 import br.com.ribeiro.fernando.showcasebackend.ports.authentication.oauth2.OAuth2AuthenticationFailureHandler;
@@ -25,14 +24,14 @@ public class SecurityConfiguration {
 	private final CookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository;
 	private final OAuth2AuthenticationSuccessHandler oauth2CookieAuthorizationRequestRepository;
 	private final OAuth2AuthenticationFailureHandler oauth2AuthenticationFailureHandler;
-	private final AppProperties appProperties;
+	private final ApplicationProperties appProperties;
 	private final TokenValidationFilter tokenValidationFilter;
 	
 	public SecurityConfiguration(
 			CookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository, 
 			OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler,
 			OAuth2AuthenticationFailureHandler oauth2AuthenticationFailureHandler,
-			AppProperties appProperties,
+			ApplicationProperties appProperties,
 			TokenValidationFilter tokenValidationFilter
 		) {
 		
@@ -57,11 +56,7 @@ public class SecurityConfiguration {
 					public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 						CorsConfiguration config = new CorsConfiguration();
 						config.setAllowedOrigins(appProperties.allowedOrigins());
-						config.setAllowedMethods(Collections.singletonList("*"));
-						config.setAllowCredentials(true);
-						config.setAllowedHeaders(Collections.singletonList("*"));
-						config.setMaxAge(3600L);
-						config.setExposedHeaders(Arrays.asList("*"));
+						config.setAllowedMethods(List.of("*"));
 						return config;
 					}
 					
@@ -76,8 +71,8 @@ public class SecurityConfiguration {
 							"/oauth2/**", 
 							"/actuator/health", 
 							"/v3/api-docs/**",
-							"/docs",
-							"/token")
+							"/swagger-ui/**",
+							"/docs")
 					.permitAll();
 				
 				authorizeHttpRequests

@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import br.com.ribeiro.fernando.showcasebackend.ports.app.properties.AppProperties;
+import br.com.ribeiro.fernando.showcasebackend.ports.application.properties.ApplicationProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties(AppProperties.class)
+@EnableConfigurationProperties(ApplicationProperties.class)
 public class ShowcaseBackendApplication {
 
 	public static void main(String[] args) {

@@ -1,13 +1,14 @@
 package br.com.ribeiro.fernando.showcasebackend.ports.authentication.filters;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import br.com.ribeiro.fernando.showcasebackend.domain.entities.users.LoggedUser;
 import br.com.ribeiro.fernando.showcasebackend.ports.authentication.token.TokenProvider;
@@ -33,34 +34,38 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		
-		Optional
-			.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
-			.ifPresent(token -> {
+		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+		
+		if (StringUtils.isNotBlank(token)) {
+			
+			try {
 				
-				try {
-					
-					Claims claims = tokenProvider.validate(token);
-					
-					var name = (String) claims.get("name");
-					var email = (String) claims.get("email");
-					
-					var loggedUser = new LoggedUser(name, email);
-					
-					var authentication = new UsernamePasswordAuthenticationToken(loggedUser, null, null);
-					
-					SecurityContextHolder
-						.getContext()
-						.setAuthentication(authentication);
-					
-				} catch (IllegalArgumentException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException  e) {
-					
-					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					
-					return;
-					
-				}
+				Claims claims = tokenProvider.validate(token);
 				
-			});
+				var name = (String) claims.get("name");
+				var email = (String) claims.get("email");
+				
+				var loggedUser = new LoggedUser(name, email);
+				
+				var authentication = new UsernamePasswordAuthenticationToken(loggedUser, null, null);
+				
+				SecurityContextHolder
+					.getContext()
+					.setAuthentication(authentication);
+				
+			} catch (IllegalArgumentException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException  e) {
+				
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				
+				response
+					.getOutputStream()
+					.print(e.getMessage());
+				
+				return;
+				
+			}
+			
+		}
 		
 		filterChain.doFilter(request, response);
 	}

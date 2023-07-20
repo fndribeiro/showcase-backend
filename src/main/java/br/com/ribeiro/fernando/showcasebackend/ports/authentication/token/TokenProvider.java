@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Component;
 
-import br.com.ribeiro.fernando.showcasebackend.ports.app.properties.AppProperties;
+import br.com.ribeiro.fernando.showcasebackend.ports.application.properties.ApplicationProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -24,9 +24,9 @@ public class TokenProvider {
 	
 	private static final String issuer = "https://showcase-backend-zojn.onrender.com";
 	
-	private final AppProperties appProperties;
+	private final ApplicationProperties appProperties;
 	
-	public TokenProvider(AppProperties appProperties) {
+	public TokenProvider(ApplicationProperties appProperties) {
 		this.appProperties = appProperties;
 	}
 

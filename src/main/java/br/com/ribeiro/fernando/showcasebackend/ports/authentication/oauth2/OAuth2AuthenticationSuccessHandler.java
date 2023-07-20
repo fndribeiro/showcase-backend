@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.ribeiro.fernando.showcasebackend.ports.application.properties.ApplicationProperties;
 import br.com.ribeiro.fernando.showcasebackend.ports.authentication.token.TokenProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,14 +18,17 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	
 	private final CookieOAuth2AuthorizationRequestRepository oauth2CookieAuthorizationRequestRepository;
 	private final TokenProvider tokenProvider;
+	private final ApplicationProperties applicationProperties;
 	
 	public OAuth2AuthenticationSuccessHandler(
 			CookieOAuth2AuthorizationRequestRepository oauth2CookieAuthorizationRequestRepository,
-			TokenProvider tokenProvider
+			TokenProvider tokenProvider,
+			ApplicationProperties applicationProperties
 		) {
 		
 		this.oauth2CookieAuthorizationRequestRepository = oauth2CookieAuthorizationRequestRepository;
 		this.tokenProvider = tokenProvider;
+		this.applicationProperties = applicationProperties;
 	}
 
 	@Override
@@ -45,8 +49,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		
 		String token = tokenProvider.create(authentication);
 		
+		String url = applicationProperties
+			.frontendBaseUrl()
+			.concat("/authentication");
+		
 		return UriComponentsBuilder
-				.fromUriString("http://localhost:8080/token")
+				.fromUriString(url)
 				.queryParam("token", token)
 				.build()
 				.toUriString();

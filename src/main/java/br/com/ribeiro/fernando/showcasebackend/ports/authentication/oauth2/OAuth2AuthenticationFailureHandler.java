@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.ribeiro.fernando.showcasebackend.ports.application.properties.ApplicationProperties;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,16 +16,18 @@ import jakarta.servlet.http.HttpServletResponse;
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
 	private final CookieOAuth2AuthorizationRequestRepository oauth2CookieAuthorizationRequestRepository;
+	private final ApplicationProperties applicationProperties;
 	
-	public OAuth2AuthenticationFailureHandler(CookieOAuth2AuthorizationRequestRepository oauth2CookieAuthorizationRequestRepository) {
+	public OAuth2AuthenticationFailureHandler(CookieOAuth2AuthorizationRequestRepository oauth2CookieAuthorizationRequestRepository, ApplicationProperties applicationProperties) {
 		this.oauth2CookieAuthorizationRequestRepository = oauth2CookieAuthorizationRequestRepository;
+		this.applicationProperties = applicationProperties;
 	}
 
 	@Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws ServletException, IOException {
 		
 		String uri = UriComponentsBuilder
-        		.fromUriString("https://localhost:8080/teste")
+        		.fromUriString(applicationProperties.frontendBaseUrl())
                 .queryParam("error", exception.getLocalizedMessage())
                 .build()
                 .toUriString();
