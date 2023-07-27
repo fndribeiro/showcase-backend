@@ -57,6 +57,7 @@ public class SecurityConfiguration {
 						CorsConfiguration config = new CorsConfiguration();
 						config.setAllowedOrigins(appProperties.allowedOrigins());
 						config.setAllowedMethods(List.of("*"));
+						config.setAllowedHeaders(List.of("*"));
 						return config;
 					}
 					
