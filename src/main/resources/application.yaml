@@ -6,16 +6,20 @@ application:
    tokenSecret: ${SHOWCASE_BACKEND_TOKEN_SECRET}
    
 spring:
+   data:
+      mongodb:
+         uri: ${SPRING_DATA_MONGODB_URI}
+         database: showcase
    security:
-     oauth2:
-       client:
-         registration:
-           google:
-             clientId: ${SHOWCASE_BACKEND_GOOGLE_CLIENT_ID}
-             clientSecret: ${SHOWCASE_BACKEND_GOOGLE_CLIENT_SECRET}
-             scope:
-               - profile
-               - email
+      oauth2:
+         client:
+            registration:
+               google:
+                  clientId: ${SHOWCASE_BACKEND_GOOGLE_CLIENT_ID}
+                  clientSecret: ${SHOWCASE_BACKEND_GOOGLE_CLIENT_SECRET}
+                  scope:
+                     - profile
+                     - email
                
 springdoc:
    default-consumes-media-type: application/json
