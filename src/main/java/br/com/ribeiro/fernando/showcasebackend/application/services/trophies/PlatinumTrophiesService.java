@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import br.com.ribeiro.fernando.showcasebackend.domain.entities.requests.trophies.PlatinumTrophyRequest;
 import br.com.ribeiro.fernando.showcasebackend.domain.entities.responses.trophies.PlatinumTrophyResponse;
 import br.com.ribeiro.fernando.showcasebackend.domain.entities.trophies.PlatinumTrophy;
+import br.com.ribeiro.fernando.showcasebackend.domain.entities.users.LoggedUser;
 import br.com.ribeiro.fernando.showcasebackend.ports.repositories.trophies.PlatinumTrophyRepository;
 
 @Service
@@ -21,6 +24,15 @@ public class PlatinumTrophiesService {
 	}
 
 	public PlatinumTrophy save(PlatinumTrophyRequest platinumTrophyRequest) {
+		
+		var user = (LoggedUser) SecurityContextHolder
+				.getContext()
+				.getAuthentication()
+				.getPrincipal();
+		
+		if (!user.isAdmin()) {
+			throw new AccessDeniedException("Only admin users allowed.");
+		}
 		
 		var platinumTrophy = new PlatinumTrophy(platinumTrophyRequest);
 		

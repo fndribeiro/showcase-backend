@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ribeiro.fernando.showcasebackend.application.services.trophies.PlatinumTrophiesService;
-import br.com.ribeiro.fernando.showcasebackend.domain.entities.requests.trophies.PlatinumTrophySortingParameters;
 import br.com.ribeiro.fernando.showcasebackend.domain.entities.requests.trophies.PlatinumTrophyRequest;
+import br.com.ribeiro.fernando.showcasebackend.domain.entities.requests.trophies.PlatinumTrophySortingParameters;
 import br.com.ribeiro.fernando.showcasebackend.domain.entities.responses.trophies.PlatinumTrophyResponse;
 import br.com.ribeiro.fernando.showcasebackend.domain.entities.trophies.PlatinumTrophy;
 import br.com.ribeiro.fernando.showcasebackend.ports.controllers.RequestMappings;

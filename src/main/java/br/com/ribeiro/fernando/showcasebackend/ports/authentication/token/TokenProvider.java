@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Component;
 
 import br.com.ribeiro.fernando.showcasebackend.ports.application.properties.ApplicationProperties;
+import br.com.ribeiro.fernando.showcasebackend.ports.repositories.users.AdminUserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -25,9 +26,11 @@ public class TokenProvider {
 	private static final String issuer = "https://showcase-backend-zojn.onrender.com";
 	
 	private final ApplicationProperties appProperties;
+	private final AdminUserRepository adminUserRepository;
 	
-	public TokenProvider(ApplicationProperties appProperties) {
+	public TokenProvider(ApplicationProperties appProperties, AdminUserRepository adminUserRepository) {
 		this.appProperties = appProperties;
+		this.adminUserRepository = adminUserRepository;
 	}
 
 	public String create(Authentication authentication) {
@@ -44,6 +47,10 @@ public class TokenProvider {
 		
 		var email = (String) user.getAttribute("email");
 		
+		boolean isAdmin = adminUserRepository
+				.findByEmail(email)
+				.isPresent();
+		
 		var issuedAt = new Date();
 
 		return Jwts
@@ -54,6 +61,7 @@ public class TokenProvider {
 				.setExpiration(new Date(issuedAt.getTime() + expiration))
 				.claim("name", name)
 				.claim("email", email)
+				.claim("admin", isAdmin)
 				.signWith(secretKey)
 				.compact();
 	}

@@ -44,8 +44,9 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 				
 				var name = (String) claims.get("name");
 				var email = (String) claims.get("email");
+				var isAdmin = (Boolean) claims.get("admin");
 				
-				var loggedUser = new LoggedUser(name, email);
+				var loggedUser = new LoggedUser(name, email, isAdmin);
 				
 				var authentication = new UsernamePasswordAuthenticationToken(loggedUser, null, null);
 				

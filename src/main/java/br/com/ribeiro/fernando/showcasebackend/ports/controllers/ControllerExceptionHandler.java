@@ -1,6 +1,7 @@
 package br.com.ribeiro.fernando.showcasebackend.ports.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,13 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleException(IllegalArgumentException exception) {
+		return new ErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+	
+	@ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public ErrorResponse handleException(AccessDeniedException exception) {
 		return new ErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
